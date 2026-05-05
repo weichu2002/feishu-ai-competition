@@ -1,48 +1,45 @@
 # FlowMate
 
-FlowMate is a Feishu-native AI agent for commitment tracking, knowledge extraction, and team execution follow-up.
+FlowMate 是一个面向飞书生态的 AI Agent，用来把聊天、文档、会议妙记里的承诺、待办、风险和上下文，自动变成可追踪、可分派、可问答、可预警的执行闭环。
 
-It is built for the Feishu AI Campus Challenge. The project focuses on a concrete office-collaboration problem: valuable decisions, promises, and action items are scattered across chats, Feishu Docs, Feishu Minutes, tasks, and calendars. FlowMate turns those fragmented signals into a structured, traceable, and actionable workflow.
+它是为飞书 AI 校园挑战赛打造的落地型作品，核心目标不是“做一个能聊天的 Bot”，而是解决企业协作中最真实的断层问题：
 
-## One-Line Summary
+- 重要事项散落在群聊、私聊、文档、评论、会议妙记里。
+- 大家知道问题在哪，但没有人持续把它们整理成统一推进系统。
+- 传统待办工具依赖手工录入，知识问答又常常停留在“说得头头是道，但不落地”。
 
-FlowMate converts scattered Feishu conversations, documents, and meeting minutes into a commitment ledger, Feishu tasks, calendar reminders, team dashboards, proactive summaries, and evidence-backed knowledge Q&A.
+FlowMate 试图打通这条链路：
 
-## Problem
+```text
+飞书消息 / 文档 / 妙记
+-> 承诺识别与上下文抽取
+-> 多维表格沉淀
+-> 飞书任务 / 日程创建
+-> 状态跟踪与提醒
+-> 基于证据的团队问答与摘要
+```
 
-In real work, many important commitments are not created in task software first. They usually appear as natural language:
+## 一句话概括
 
-- "I will send the draft tomorrow afternoon."
-- "Please follow up with the customer before Friday."
-- "After the meeting, someone needs to share the launch link."
+FlowMate 能把飞书里零散的自然语言协作过程，自动转成结构化事项总表、任务、日历提醒、团队驾驶舱和证据问答。
 
-Traditional task tools require users to manually create, update, and maintain tasks. Knowledge assistants can answer questions, but often do not close the loop from knowledge to execution.
+## 项目定位
 
-FlowMate tries to solve this gap:
+FlowMate 最贴近比赛方向 D“团队待办中枢与进展自动对账”，同时覆盖了方向 A、B 的核心能力：
 
-- Identify commitments from natural Feishu messages, Docs, and Minutes.
-- Preserve source evidence and context.
-- Create or update Feishu Bitable records, tasks, and calendar reminders.
-- Let users control the bot directly inside Feishu.
-- Support team-level source scanning and evidence-based Q&A.
+- 方向 D：从多个飞书来源识别事项，写入统一总表，补齐负责人、截止时间、状态和风险。
+- 方向 B：围绕会议妙记、文档和项目推进，抽取 Action Items 并联动任务与提醒。
+- 方向 A：沉淀团队驾驶舱、风险洞察和周期性摘要能力。
 
-## Product Positioning
+它不是普通聊天机器人，而是一个“知识到执行”的工作流 Agent。
 
-FlowMate is not a generic chatbot. It is a workflow agent for "knowledge to execution".
+## 核心能力
 
-The current product is closest to competition direction D, "team task hub and progress reconciliation", and also covers parts of direction A and B:
+### 1. 飞书内直接对话
 
-- Direction D: team key item tracking table, owner extraction, task creation, status tracking, warnings, and dashboard.
-- Direction B: meeting minutes to Action Items to tasks and reminders.
-- Direction A: daily/team summary, risk insights, and dashboard metrics.
+用户可以直接在飞书里和 FlowMate 对话，既支持自然语言问答，也支持确定性控制命令。
 
-## Core Features
-
-### 1. Feishu Bot Conversation
-
-Users can talk to FlowMate directly in Feishu. It supports both natural Q&A and deterministic control commands.
-
-Examples:
+示例：
 
 ```text
 FlowMate 和普通待办软件有什么区别？
@@ -51,31 +48,37 @@ FlowMate 和普通待办软件有什么区别？
 恢复监听
 ```
 
-### 2. Personal Commitment Auto-Capture
+### 2. 个人承诺自动识别
 
-FlowMate can monitor visible Feishu messages and detect personal commitments.
-
-Pipeline:
+FlowMate 可以监听用户可见消息，自动识别个人承诺，并完成后续闭环：
 
 ```text
-Feishu message -> rule pre-filter -> context collection -> model extraction -> Bitable -> task -> calendar -> bot notification
+飞书消息
+-> 规则预筛
+-> 上下文拉取
+-> 模型抽取
+-> 多维表格
+-> 飞书任务
+-> 飞书日历提醒
+-> Bot 通知
 ```
 
-Supported operations:
+当前已支持：
 
-- Automatically detect commitments.
-- Write structured records into Feishu Bitable.
-- Create Feishu tasks.
-- Create calendar reminders.
-- Update existing commitments.
-- Mark commitments as done or blocked.
-- Delete or undo records, including linked Bitable/task/calendar cleanup.
+- 自动识别承诺
+- 写入个人承诺账本
+- 创建飞书任务
+- 创建日历提醒
+- 修改已有承诺
+- 标记完成 / 阻塞
+- 撤销自动记录
+- 删除指定记录，并同步清理表格、任务、日程
 
-### 3. Bot-Controlled Monitoring
+### 3. 飞书内控制监听
 
-The user can manage the watcher from Feishu without opening the terminal.
+用户不需要进入终端，就可以直接在飞书里管理监听状态。
 
-Supported commands:
+支持命令：
 
 ```text
 监听状态
@@ -85,115 +88,115 @@ Supported commands:
 重新授权监听
 ```
 
-### 4. Team Source Scanning
+### 4. 团队固定来源扫描
 
-FlowMate supports team-level fixed sources:
+FlowMate 支持团队级固定来源扫描，当前覆盖：
 
-- Feishu group messages.
-- Feishu Docs.
-- Feishu Doc comments.
-- Feishu Minutes.
+- 飞书群消息
+- 飞书文档
+- 飞书文档评论
+- 飞书会议妙记 Minutes
 
-It can periodically scan configured sources and write extracted items into a team-level progress table.
+系统会定时扫描这些来源，把识别出的重点事项写入团队重点事项推进总表。
 
-### 5. Real Feishu Minutes Integration
+### 5. 真实飞书妙记接入
 
-FlowMate can read real Feishu Minutes through lark-cli, extract todos from meeting artifacts, and write them into the team table.
+FlowMate 已接入真实飞书妙记，而不只是本地模拟文本。
 
-Verified demo case:
+已验证能力：
 
-- Source: real Feishu Minutes.
-- Extracted item: product launch information link sharing.
-- Owner: 吴星辉.
-- Output: team table record, Feishu task, dashboard refresh, evidence-backed Q&A.
+- 通过 `lark-cli` 搜索和读取真实 Minutes
+- 从妙记 Todo / Action Items 中抽取事项
+- 写入团队总表
+- 创建飞书任务
+- 刷新驾驶舱
+- 基于该妙记内容进行证据问答
 
-### 6. Feishu Bitable as Source of Truth
+### 6. 多维表格作为事实底座
 
-FlowMate uses Feishu Bitable as the official ledger, not a local JSON file.
+FlowMate 不把本地 JSON 当成主数据源，而是以飞书多维表格作为正式账本。
 
-Current tables include:
+当前主要表包括：
 
-- Personal commitment ledger.
-- Team key item progress table.
-- Team dashboard metrics table.
+- 个人承诺账本
+- 团队重点事项推进总表
+- 团队驾驶舱指标表
 
-Tracked fields include:
+当前沉淀字段包括：
 
-- Title.
-- Owner.
-- Owner Open ID.
-- Deadline text.
-- Normalized deadline.
-- Status.
-- Priority.
-- Source type.
-- Source title.
-- Source link.
-- Evidence quote.
-- Raw message text.
-- Conversation summary.
-- Conversation context.
-- Feishu task ID.
-- Feishu calendar event ID.
-- Deduplication fingerprint.
+- 事项标题
+- 负责人
+- 负责人 Open ID
+- 截止时间原文
+- 归一化截止时间
+- 状态
+- 优先级
+- 来源类型
+- 来源标题
+- 来源链接
+- 证据摘录
+- 原始消息
+- 对话摘要
+- 上下文信息
+- 飞书任务 ID
+- 飞书日历事件 ID
+- 去重指纹
 
-### 7. Team Dashboard
+### 7. 团队驾驶舱
 
-FlowMate maintains dashboard-oriented metrics in Bitable:
+FlowMate 会持续刷新驾驶舱指标，当前支持：
 
-- Total items.
-- Pending items.
-- Due soon.
-- Overdue.
-- Blocked.
-- Done.
-- By owner.
-- By source type.
-- Weekly additions.
+- 事项总数
+- 待推进数
+- 临期数
+- 逾期数
+- 阻塞数
+- 已完成数
+- 按负责人统计
+- 按来源类型统计
+- 本周新增事项
 
-### 8. Evidence-Based Knowledge Q&A
+### 8. 基于证据的知识问答
 
-FlowMate can answer questions based on extracted team evidence instead of hallucinating.
+FlowMate 的问答不是纯模型发挥，而是基于团队来源、表格证据和上下文回答。
 
-Example:
+例如：
 
 ```text
 团队知识问答：根据最近的团队来源，FlowMate 现在有哪些待推进事项或风险？请给证据来源。
 ```
 
-Expected answer:
+期望输出：
 
-- Summarizes the current pending item.
-- Names the owner.
-- Includes source evidence such as Feishu Minutes title and original quote.
+- 回答当前待推进事项
+- 指出负责人
+- 给出证据来源，例如妙记标题、文档标题、原始摘录
 
-### 9. Local Web Control Panel
+### 9. 本地 Web 控制台
 
-FlowMate includes a local web control panel:
+FlowMate 提供了一个本地网页控制台：
 
-```text
-http://127.0.0.1:18888/
-```
+[http://127.0.0.1:18888/](http://127.0.0.1:18888/)
 
-Supported one-click actions:
+支持一键操作：
 
-- Start services.
-- Stop services.
-- Refresh status.
-- Refresh team dashboard.
-- Subscribe to task events.
-- Real document source verification.
-- Real Minutes source verification.
-- Evidence Q&A verification.
-- Full live regression.
+- 启动服务
+- 停止服务
+- 刷新状态
+- 刷新团队驾驶舱
+- 订阅任务事件
+- 真实文档来源验证
+- 真实妙记验证
+- 证据问答验证
+- 完整 live 回归
 
-After a one-click action completes, the Bot sends a Feishu confirmation message.
+每次一键操作完成后，Bot 会主动在飞书里发确认消息。
 
-### 10. Regression and Live Verification
+### 10. 自动化回归验证
 
-The project includes automated checks to avoid "fixing one feature and breaking another".
+为了避免“修 A 烂 B”，项目内置了一套回归和真实联调脚本。
 
-Important verification scripts:
+核心命令：
 
 ```bash
 npm run service:health
@@ -204,75 +207,75 @@ npm run self-test:real-minutes-source
 npm run self-test:team-knowledge-qa
 ```
 
-## Technical Architecture
+## 技术架构
 
-FlowMate follows a strict layered architecture.
+FlowMate 采用清晰分层，而不是把通信、业务和飞书动作揉成一团。
 
 ```text
 Feishu
   |
   v
 openclaw-lark
-  - official Feishu communication channel
-  - receives messages
-  - sends Bot replies
+  - 官方飞书通信层
+  - 负责收消息、发回复
   |
   v
 OpenClaw Gateway
-  - agent runtime
-  - session/workspace/tool routing
+  - Agent 运行时
+  - 会话、工具、工作区路由
   |
   v
 FlowMate
-  - intent routing
-  - commitment extraction
-  - context collection
-  - deduplication
-  - state orchestration
-  - dashboard and QA logic
+  - 意图识别
+  - 承诺抽取
+  - 上下文收集
+  - 去重
+  - 状态编排
+  - 驾驶舱与证据问答
   |
   v
 lark-cli
-  - Feishu object operations
-  - Bitable records
-  - tasks
-  - calendars
-  - Docs
-  - Minutes
+  - 飞书动作层
+  - 多维表格
+  - 任务
+  - 日历
+  - 文档
+  - 妙记
 ```
 
-### Key Boundary
+### 架构边界
 
-- `openclaw-lark` is the official Feishu communication layer.
-- `lark-cli` is the Feishu action layer.
-- FlowMate owns product logic and orchestration.
-- Feishu Bitable is the official data source.
-- Local files are only cache, debug, or control state.
+- `openclaw-lark` 是唯一飞书通信层。
+- `lark-cli` 是主要飞书动作执行层。
+- FlowMate 负责产品逻辑和编排。
+- 飞书多维表格是事实底座。
+- 本地文件只作为缓存、调试或控制状态，不是正式数据源。
 
-## Main Files
+## 目录结构
 
 ```text
 flowmate/
   src/
-    config.js                # environment and runtime config
-    lark-cli.js              # lark-cli wrapper
-    model-client.js          # LLM client
-    feishu-write.js          # Bitable/task/calendar operations
-    personal-monitor.js      # personal watcher control state
-    team-monitor.js          # team source scanning and dashboard
-    types.js                 # core domain types
+    config.js
+    lark-cli.js
+    model-client.js
+    feishu-write.js
+    personal-monitor.js
+    team-monitor.js
+    types.js
   scripts/
-    assistant-entry.js       # main Bot orchestration entry
+    assistant-entry.js
     watch-personal-messages.js
     watch-team-sources.js
-    flowmate-service.js      # service manager
+    flowmate-service.js
     flowmate-control-panel.js
     team-entry.js
-    self-test-*.mjs          # regression and live verification
+    self-test-*.mjs
   docs/
     ARCHITECTURE.md
     ARCHITECTURE_ADDENDUM.md
     ARCHITECTURE_PERSONAL_BOT_CONTROL.md
+    FEISHU_AI_SUBMISSION_DRAFT.md
   eval/
     run-eval.js
   examples/
@@ -281,30 +284,30 @@ flowmate/
     flowmate/SKILL.md
 ```
 
-## Requirements
+## 环境要求
 
-- Node.js 20 or later.
-- OpenClaw runtime.
-- openclaw-lark plugin.
-- lark-cli with Feishu authorization.
-- Feishu Bitable, Task, Calendar, Docs, and Minutes permissions.
-- Zhipu GLM API key or compatible model API.
+- Node.js 20+
+- OpenClaw 运行环境
+- `openclaw-lark` 插件
+- 已授权的 `lark-cli`
+- 飞书多维表格 / 任务 / 日历 / 文档 / 妙记权限
+- 智谱 GLM API Key 或兼容模型接口
 
-## Setup
+## 安装与启动
 
-Install dependencies:
+安装依赖：
 
 ```bash
 npm install
 ```
 
-Copy environment template:
+复制环境变量模板：
 
 ```bash
 cp .env.example .env
 ```
 
-Fill in required environment variables:
+填写必要配置：
 
 ```bash
 ZAI_API_KEY=
@@ -316,42 +319,40 @@ FLOWMATE_BITABLE_TABLE_ID=
 FLOWMATE_TASK_ID=
 ```
 
-Check lark-cli:
+检查 `lark-cli`：
 
 ```bash
 npm run check:lark
 ```
 
-Start FlowMate services:
+启动服务：
 
 ```bash
 npm run service:start
 ```
 
-Open local control panel:
+打开控制台：
 
 ```bash
 npm run service:panel -- --open
 ```
 
-Check health:
+健康检查：
 
 ```bash
 npm run service:health
 ```
 
-## Demo Flow
+## 推荐 Demo 流程
 
-Recommended recording flow:
-
-1. Open the local control panel and refresh status.
-2. Ask the Bot a natural question:
+1. 打开本地控制台并点击“刷新状态”。
+2. 在飞书里发：
 
 ```text
 FlowMate 和普通待办软件有什么区别？
 ```
 
-3. Test monitor control:
+3. 测试监听控制：
 
 ```text
 监听状态
@@ -359,13 +360,13 @@ FlowMate 和普通待办软件有什么区别？
 恢复监听
 ```
 
-4. Send a personal commitment:
+4. 发送一条个人承诺：
 
 ```text
-我明天下午5点前把 FlowMate 答辩演示稿第一版整理出来。
+我明天下午 5 点前把 FlowMate 答辩演示稿第一版整理出来。
 ```
 
-5. Update or delete the commitment:
+5. 测试修改、完成、撤销：
 
 ```text
 把这条延期到明天下午
@@ -373,87 +374,87 @@ FlowMate 和普通待办软件有什么区别？
 撤销刚刚自动记录
 ```
 
-6. Click "真实文档验证" in the control panel.
-7. Click "真实妙记验证" in the control panel.
-8. Ask evidence-based team QA:
+6. 在控制台点击“真实文档验证”。
+7. 在控制台点击“真实妙记验证”。
+8. 在飞书里发起团队证据问答：
 
 ```text
 团队知识问答：根据最近的团队来源，FlowMate 现在有哪些待推进事项或风险？请给证据来源。
 ```
 
-9. Show Feishu Bitable team table and dashboard metrics.
-10. Optionally run full live regression.
+9. 展示飞书多维表格里的团队总表和驾驶舱指标。
+10. 如有需要，补充展示完整 live 回归。
 
-## Verified Capabilities
+## 已真实验证的能力
 
-The following capabilities have been verified in live Feishu environment:
+以下能力已在真实飞书环境中跑通过：
 
-- Feishu Bot natural Q&A.
-- Monitor status, disable, and resume commands.
-- Personal commitment extraction from Feishu messages.
-- Bitable record creation and update.
-- Feishu task creation, update, completion, and deletion.
-- Calendar reminder creation, update, and deletion.
-- Undo latest automatic record.
-- Specific commitment delete command.
-- Real Feishu Doc source end-to-end verification.
-- Real Feishu Minutes source end-to-end verification.
-- Team knowledge Q&A with evidence.
-- Team dashboard metric refresh.
-- Local control panel Bot notification.
+- Bot 自然问答
+- 监听状态 / 关闭监听 / 恢复监听
+- 个人承诺识别
+- 多维表格记录创建与更新
+- 飞书任务创建、更新、完成、删除
+- 飞书日历提醒创建、更新、删除
+- 撤销刚刚自动记录
+- 删除指定承诺记录
+- 真实飞书文档来源端到端验证
+- 真实飞书妙记来源端到端验证
+- 团队证据问答
+- 驾驶舱指标刷新
+- 控制台一键操作后的 Bot 确认通知
 
-## Evaluation Ideas
+## 评测思路
 
-FlowMate can be evaluated with both technical and product metrics:
+FlowMate 可以从技术指标和产品指标两个层面评估：
 
-- Commitment extraction accuracy.
-- Owner extraction accuracy.
-- Deduplication rate.
-- Task creation success rate.
-- Calendar creation success rate.
-- Evidence citation accuracy.
-- Hallucination rate in knowledge Q&A.
-- Manual organization time saved.
-- Number of user actions reduced from message to task.
+- 承诺识别准确率
+- 负责人识别准确率
+- 去重成功率
+- 任务创建成功率
+- 日历创建成功率
+- 证据引用准确率
+- 问答幻觉率
+- 人工整理时间节省
+- 从消息到任务的用户操作数下降幅度
 
-## Security Notes
+## 安全说明
 
-Do not commit:
+仓库中不应提交以下内容：
 
 - `.env`
 - `node_modules/`
-- local OpenClaw state
-- Feishu auth files
-- session logs
-- personal user identity files
-- real private meeting transcripts
+- 本地 OpenClaw 状态目录
+- 飞书授权文件
+- 运行日志
+- 用户身份文件
+- 真实私密会议妙记原文
 
-Use `.env.example` and documentation instead.
+请使用 `.env.example` 和文档进行配置说明。
 
-## Future Roadmap
+## 未来展望
 
-FlowMate is currently a working execution-closure agent, but it is not yet the final form of AI-native office work. Future versions can go deeper in several directions:
+FlowMate 现在已经是一个可运行的执行闭环 Agent，但离真正颠覆办公范式还有很长的路。我们认为它未来至少还能往五个方向继续进化：
 
-1. From "task extraction" to "organizational memory"
+### 1. 从“待办抽取器”进化为“组织记忆系统”
 
-FlowMate should not only extract todos. It should gradually build a living project memory graph: decisions, commitments, risks, owners, deadlines, dependencies, and evidence links.
+不只是抽取 Todo，而是持续沉淀决策、承诺、风险、依赖关系、责任人和证据，形成团队长期记忆图谱。
 
-2. From "passive dashboard" to "active management copilot"
+### 2. 从“被动看板”进化为“主动管理 Copilot”
 
-Instead of waiting for managers to open dashboards, FlowMate can proactively generate weekly risk briefings, detect blocked work, and ask the right person for clarification.
+不是等管理者打开仪表盘，而是主动发现阻塞、临期、失焦事项，并把真正重要的信息推到正确的人面前。
 
-3. From "single-user verification" to "multi-member team loop"
+### 3. 从“单人闭环”进化为“多人真实协作闭环”
 
-The next milestone is robust multi-member mapping, assignment, notification, status tracking, and permission-aware collaboration across a real team.
+进一步完善多人映射、权限感知、自动分派、状态对账和团队内协作确认流。
 
-4. From "source scanning" to "context-aware timing"
+### 4. 从“扫描来源”进化为“理解时机”
 
-FlowMate should know when knowledge is useful: before a meeting, after a meeting, before a deadline, when a task is blocked, or when a similar historical case exists.
+AI 不只是知道信息是什么，更知道什么时候该推送给谁，比如会前、会后、临期前、阻塞时、风险出现时。
 
-5. From "office automation" to "new work interface"
+### 5. 从“办公自动化”进化为“AI Native 工作界面”
 
-The long-term vision is that work does not start from manually creating forms and tasks. Work starts from natural collaboration, and AI agents transform it into structured, verifiable, and executable systems.
+长期来看，工作不该从手动建表、建任务、填表单开始，而应该从自然协作开始，再由 Agent 自动转成结构化、可验证、可执行的系统。
 
 ## License
 
-This project is for competition and research demonstration.
+本项目用于比赛与研究演示。
