@@ -1,0 +1,56 @@
+# Environment
+.env
+.flowmate.local.json
+
+# Data (local)
+data/*.local.json
+data/*.log
+data/*.tmp
+data/*.cache.json
+
+# Debug
+debug/
+*.debug.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+runtime-logs/
+
+# Dependencies
+node_modules/
+.npm-cache/
+
+# Build
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+tmp/
+temp/
+*.tmp
+.tmp-check.js
+tmp-lark-auth.*
+
+# Local runtime payloads
+minutes/
+params.json
+task-data.json
+task_delete_params.json
+
+# Local handover / secrets
+HANDOVER.md
+
+# Ad-hoc local test scripts
+test-*.mjs
